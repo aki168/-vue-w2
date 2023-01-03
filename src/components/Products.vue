@@ -20,7 +20,7 @@ async function checkAdmin() {
     getData()
   })
     .catch(err => {
-      alert(err.response.data.message)
+      alert('請重新登入')
       router.push(base)
     })
 }
