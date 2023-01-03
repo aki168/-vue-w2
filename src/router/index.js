@@ -2,15 +2,17 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from '../components/Home.vue'
 import Products from '../components/Products.vue'
 
+const base = '/-vue-w2'
+
 let history = createWebHistory()
 let routes = [
   {
-    path: '/',
+    path: `${base}/`,
     name: 'Home',
     component: Home
   },
   {
-    path: '/products',
+    path: `${base}/products`,
     name: 'Products',
     component: Products
   }

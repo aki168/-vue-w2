@@ -3,6 +3,8 @@ import { RouterLink } from 'vue-router';
 import axios from 'axios'
 import router from '../router';
 
+const base = '/-vue-w2'
+
 const user = {
   username: '',
   password: ''
@@ -15,7 +17,7 @@ function login() {
     // 寫入 cookie token
     // expires 設置有效時間
     document.cookie = `hexToken=${token};expires=${new Date(expired)}; path=/`;
-    router.push('/products')
+    router.push(`${base}/products`)
   }).catch((err) => {
     console.error(err.response.data.message);
   });
