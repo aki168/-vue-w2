@@ -3,7 +3,9 @@ import { ref, onMounted } from 'vue';
 // ref 就是 Vue 2 時的 data
 import axios from 'axios';
 import router from '../router';
+import { isMemberExpressionBrowser } from '@vue/compiler-core';
 
+const base = '/-vue-w2'
 
 // data
 const apiUrl = 'https://vue3-course-api.hexschool.io/v2/';
@@ -12,26 +14,33 @@ let products = ref([]);
 let tempProduct = ref({});
 
 // methods
-async function checkAdmin(){
+async function checkAdmin() {
   const url = `${apiUrl}/api/user/check`;
-  await axios.post(url).then(()=>{
+  await axios.post(url).then(() => {
     getData()
   })
-  .catch(err => {
-    alert(err.response.data.message)
-    router.push('/')
-  })
+    .catch(err => {
+      alert(err.response.data.message)
+      router.push(base)
+    })
 }
 
-async function getData(){
+async function getData() {
   const url = `${apiUrl}/api/${apiPath}/admin/products`;
-  await axios.get(url).then((res)=>{
-      products.value = res.data.products
-      console.log(res.data.products)
+  await axios.get(url).then((res) => {
+    products.value = res.data.products
+    console.log(res.data.products)
   })
-  .catch(err => {
-    alert(err.response.data.message)
-  })
+    .catch(err => {
+      alert(err.response.data.message)
+    })
+}
+
+function logout() {
+  document.cookie = "hexToken='';expires=0; path=/";
+  const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+  axios.defaults.headers.common.Authorization = token;
+  checkAdmin()
 }
 
 function showDetails(item) {
@@ -40,14 +49,20 @@ function showDetails(item) {
 
 onMounted(() => {
   const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
-    axios.defaults.headers.common.Authorization = token;
-    checkAdmin()
+  axios.defaults.headers.common.Authorization = token;
+  checkAdmin()
 })
 
 </script>
 
 
 <template>
+  <nav class="bg-primary p-2 d-flex">
+    <h1 class="text-white px-2">LOGO</h1>
+    <button class="mx-5 btn btn-dark" @click="logout">
+      登出
+    </button>
+  </nav>
   <div class="container">
     <div class="row py-3">
       <div class="col-md-6">
