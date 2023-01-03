@@ -16,9 +16,8 @@ function login() {
     // expires 設置有效時間
     document.cookie = `hexToken=${token};expires=${new Date(expired)}; path=/`;
     router.push('/products')
-    // window.location = 'products.html';
   }).catch((err) => {
-    alert(err.response.data.message);
+    console.error(err.response.data.message);
   });
 }
 
