@@ -19,7 +19,7 @@ function login() {
     document.cookie = `hexToken=${token};expires=${new Date(expired)}; path=/`;
     router.push(`${base}/products`)
   }).catch((err) => {
-    console.error(err.response.data.message);
+    alert(err.response.data.message)
   });
 }
 
